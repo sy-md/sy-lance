@@ -11,7 +11,7 @@ git communication:
 4: copy the pub into the git hub key part
 
 
-
+git remote set-url origin <NEW_GIT_URL_HERE>
 
 New workflow tools found for 2025
 
