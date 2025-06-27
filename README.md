@@ -12,6 +12,8 @@ git communication:
 
 
 git remote set-url origin <NEW_GIT_URL_HERE>
+git config --global user.name "Your Name"
+git config --global user.email "email"
 
 New workflow tools found for 2025
 
