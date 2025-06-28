@@ -98,8 +98,81 @@ git clone https://github.com/yourusername/sy_lance_dots.git ~/.config/sy_lance
 
 
 
+# installing Arch 
 
+1. Oracle VM Setup
+VM Configuration
+OS Type: Linux (Arch 64-bit)
 
+RAM: ≥2GB (recommended)
+
+Storage: ≥20GB (dynamic VDI)
+
+Network: NAT (or Bridged for SSH)
+
+Enable EFI (Optional)
+bash
+# In Oracle VM settings:
+System → Motherboard → Enable EFI
+2. Arch Linux Installation
+Boot & Connect to Internet
+Boot the Arch ISO in VM.
+
+Check internet:
+
+bash
+ping archlinux.org
+(If no internet, run dhcpcd for DHCP.)
+
+Partitioning (GPT + EFI)
+bash
+fdisk /dev/sda  # or /dev/nvme0n1 for NVMe  
+Create partitions:
+
++512M (EFI, type EF00)
+
++4G (Swap, type 8200)
+
+Remainder (Root, type 8300)
+
+Format & Mount
+bash
+mkfs.fat -F32 /dev/sda1            # EFI  
+mkswap /dev/sda2 && swapon /dev/sda2  # Swap  
+mkfs.ext4 /dev/sda3                # Root  
+mount /dev/sda3 /mnt  
+mkdir /mnt/boot && mount /dev/sda1 /mnt/boot  
+Install Base System
+bash
+pacstrap /mnt base linux linux-firmware vim  
+genfstab -U /mnt >> /mnt/mnt/etc/fstab  
+Chroot & Basic Setup
+bash
+arch-chroot /mnt  
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime  
+hwclock --systohc  
+echo "myhostname" > /etc/hostname  
+passwd  # Set root password  
+Bootloader (GRUB)
+bash
+pacman -S grub efibootmgr  
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB  
+grub-mkconfig -o /boot/grub/grub.cfg  
+Reboot
+bash
+exit  
+umount -R /mnt  
+reboot  
+3. Post-Install Essentials
+User & Sudo
+bash
+useradd -m -G wheel username  
+passwd username  
+EDITOR=vim visudo  # Uncomment `%wheel ALL=(ALL) ALL`  
+Network (Optional)
+bash
+pacman -S networkmanager  
+systemctl enable --now NetworkManager  
 
 
 
