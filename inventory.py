@@ -1,16 +1,18 @@
 import pandas as pd
 import openpyxl as op
+import json as js
 
 # find the location fo the data
-data1 = "/mnt/c/Users/crazy/Downloads/W PHX INVENTORY.xlsx"
-#data1 = "W PHX INVENTORY_updated.xlsx"
+#data1 = "/mnt/c/Users/crazy/Downloads/W PHX INVENTORY.xlsx"
+#data1 = "/mnt/c/Users/crazy/Downloads/W PHX INVENTORY.xlsx"
+data1 = "W PHX INVENTORY_updated.xlsx"
 #read the data
 my_file = pd.read_excel(data1)
 #print(my_file.head())
 
 #activate the data
 wb = op.load_workbook(data1)
-sheet = wb.active
+sh = wb.active
 
 #manipulate the data
 col = 4
@@ -29,20 +31,6 @@ kelly: uncounted for
 
 find the sims in the vechils every vevhical use the same stuff in some deg
 """
-
-# create a dumper of part being a dump_parts.py
-parts = {
-        "H050" : [1000120 , 0 ], 
-        "B012" : [1000394, 0 ],
-        "H244" : [1000288, 0],
-        "H089" :[1000322, 0],
-        "EKP02" : [1000770, 0],
-        "ETK02-2PL" :  [1000736, 0],
-        "ECM01-CAN" : [1000732, 0], 
-        "ETK12-SNT" : [10006041, 0] #slap n track
-        }
-
-#move this in a vehcils.json  
 """
                 instead of putting them here and re-typing the interface
                 will do that for i just did a [polaris] and used 1 of this
@@ -52,61 +40,119 @@ parts = {
                 to use all ready for exmaple keep this under   V
 
 """
-
-vechils = {
-        "polaris" : [
-            parts["H050"][0],
-            parts["B012"][0],
-            parts["H244"][0],
-            parts["H089"][0],
-            parts["EKP02"][0],
-            parts["ETK02-2PL"][0],
-            parts["ECM01-CAN"][0]
-        ],
-        "Kubbota": [],
-        "case" : [],
-        "takeuchi" : []
+parts = {
+    "H050" : [1000120], 
+    "B012" : [1000394],
+    "H244" : [1000288],
+    "H089" :[1000322],
+    "EKP02" : [1000770],
+    "ETK02-2PL" :  [1000736],
+    "ECM01-CAN" : [1000732], 
+    "ETK12-SNT" : [10006041] #slap n track
 }
 
-
-"""
 data = {
-    inventory : {"name" : id}
-    vehcial : []
+    "polaris" : {
+        "cable" : parts["H050"],
+        "six" :parts["B012"],
+        "five" :parts["H244"],
+        "four" :parts["H089"],
+        "three" :parts["EKP02"],
+        "two" :parts["ETK02-2PL"],
+        "one" :parts["ECM01-CAN"]
+    },
+    "vechils" : {},
+    "kubbota" : {},
+    "case" : {},
+    "takeuchi" : {},
 }
-
-
-"""
-
-# todo list:
 
 # crud operations
 # tmp subbing of part
 #interface for quick operations
-
+amt = 54
 
 # a cli for how man unit you did
 
+def interface():
+    x = input("how how many of the X of units have you installed - ") # this will be the promts
+    the_type = input("i need the show a list here (the type of vechil) - ")
+    
+   
+
+    if the_type in data.keys(): # the unit you just worked on is the the type
+        lst = [] # put the type of parts in this list
 
 
-lst = []
-for i in range(1, rows): #starting in the first row till max row
-    for j in range(1, col + 1): # jump colums till max
-        cell_obj = sheet.cell(row=i, column=j) # storing curr location
+        for v in data[the_type].values():
+            lst.append(v[0])
+            print("the list of parts of the unit you are looking for")
 
-        if cell_obj.value in vechils["polaris"]:
-            print("searching for {}".format(cell_obj.value))
-            #oh = sheet.cell(row=i,column=j+3) # after finding the name just to on hand
-            #sheet["E{}".format(i)] = oh.value - units # subtract units done from on hand
+        with open("data.json", "r") as file:
+            my_data = js.load(file)
+            for i in range(1, rows):
+                for j in range(1, col+ 1):
+                    cell = sh.cell(row=i, column=j) # gets the cell info from the cell
+                
+                    if cell.value in lst:
+                        for d in my_data[the_type].values():
+                            if len(d) == 2:
+                                print(len(d))
+                                d[1] += int(x)
+                            else:
+                                d.append(int(x))
+                                print("added to the database")
 
-        print(cell_obj.value, end= " - ")
-    print() # Add a newline at the end of the row
+            with open("data.json", "w") as file:
+                js.dump(my_data, file, indent=4)
+
+            
+
+            #oh = sh.cell(row=i,column=j+3) # after finding the name just to on hand
+            #sh["E{}".format(i)] = oh.value - x # subtract units done from on hand
+            print(amt - int(x))
 
 
-       
 
-print(sheet["E3"].value)
+            
 
-#nothing
+
+
+#   if the_type in data.keys():
+#       lst = []
+#       for i in range(1, rows): #starting in the first row till max row
+#           for j in range(1, col + 1): # jump colums till max
+#               cell_obj = sheet.cell(row=i, column=j) # storing curr location
+
+#               print("choice was {}".format(the_type))
+
+#               5
+#               
+#               if cell_obj.value == data[the_type][0+1]:
+#                   print("is in the data dict")
+#                   for k,v in data[the_type].items():
+#                       print("the value is"+str(v))
+#                       print("searching for {} with {}".format(cell_obj.value,x))
+#                   #oh = sheet.cell(row=i,column=j+3) # after finding the name just to on hand
+#                   #sheet["E{}".format(i)] = oh.value - units # subtract units done from on hand
+#               print("not found")
+#               print(cell_obj.value, end= " - ")
+#           print() # Add a newline at the end of the row
+#       print(sheet["E3"].value)
+
+
+#       if the_type not in data:
+#           data[the_type] = {}
+#           print("added this to the dict {}".format(data) )
+
 
 #wb.save(data1)
+
+
+
+
+
+
+
+
+interface()
