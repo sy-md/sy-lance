@@ -3,6 +3,17 @@ import questionary
 from datetime import datetime
 from pathlib import Path
 
+"""
+this app as the user for the items they want selected
+then asks them if that is whats on hand then the user can comfirm or update the amt
+
+what we want is to track the amount use in a week 
+then cash out to the json file and update our inventpry
+
+"""
+
+
+
 class InventoryManager:
     def __init__(self, file_path="inventory.json"):
         self.file_path = file_path
