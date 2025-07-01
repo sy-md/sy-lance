@@ -1,0 +1,72 @@
+-- Enable Python-friendly settings
+vim.opt.tabstop = 4       -- 4 spaces for tabs
+vim.opt.shiftwidth = 4    -- 4 spaces for indentation
+vim.opt.expandtab = true  -- Convert tabs to spaces
+vim.opt.number = true     -- Line numbers
+vim.opt.syntax = "on"     -- Syntax highlighting
+
+-- Leader key (for shortcuts)
+vim.g.mapleader = " "
+
+-- Quick exit from Insert Mode
+vim.keymap.set("i", "jj", "<Esc>")
+
+
+
+
+-- Auto-install Packer if missing
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.cmd [[packadd packer.nvim]]
+end
+
+-- Configure plugins
+require('packer').startup(function(use)
+  -- Package manager
+  use 'wbthomason/packer.nvim'
+
+  -- Python LSP (Autocompletion, diagnostics)
+  use {
+    'neovim/nvim-lspconfig',
+    requires = {
+      'williamboman/mason.nvim',          -- LSP installer
+      'williamboman/mason-lspconfig.nvim', -- Bridges Mason + LSP
+    },
+    config = function()
+      require('mason').setup()
+      require('mason-lspconfig').setup()
+      require('lspconfig').pyright.setup {} -- Python LSP
+    end
+  }
+
+  -- Autocompletion engine
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp', -- LSP completions
+      'L3MON4D3/LuaSnip',      -- Snippets
+    },
+    config = function()
+      local cmp = require('cmp')
+      cmp.setup({
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' }, -- LSP-based completions
+        }),
+      })
+    end
+  }
+
+  -- File explorer
+  use {
+    'nvim-tree/nvim-tree.lua',
+    config = function()
+      require('nvim-tree').setup()
+      vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>') -- Toggle with \e
+    end
+  }
+
+  -- Python-specific plugins
+  use 'vim-python/python-syntax'      -- Better Python syntax
+  use 'jeetsukumaran/vim-pythonsense' -- Python text objects
+end)
