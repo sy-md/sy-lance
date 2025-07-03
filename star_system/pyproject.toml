@@ -1,0 +1,22 @@
+[project]
+name = "star-system"
+version = "0.1.0"
+description = "this will host all the python needs for sy-lance arcoss all devices"
+authors = [
+    {name = "sy-md",email = "crazymartell@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["questionary (>=2.1.0,<3.0.0)", "openpyxl (>=3.1.5,<4.0.0)", "pandas (>=2.3.0,<3.0.0)"]
+
+
+[tool.poetry]
+package-mode = false
+name = "star_system"
+packages = [
+		{include = "star_system", from = "src"}
+		]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
