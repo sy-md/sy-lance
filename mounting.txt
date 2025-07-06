@@ -1,0 +1,9 @@
+    sudo fdisk -l → Find USB (e.g., /dev/sdb1).
+
+    sudo mkdir /mnt/usb → Create empty folder.
+
+    sudo mount /dev/sdb1 /mnt/usb → Mount USB to folder.
+
+    cd /mnt/usb → Access files.
+
+    sudo umount /mnt/usb → Safely eject.
