@@ -49,27 +49,33 @@
     * plus ont has GPs and cellular
 
 #   MCX101
-    * checkin every 12 hours dueing th off state and checkin every 1- mins while the asset is on
-    * flashed once its required
-    * lmu3030 is mostly fazed out but if still woriing than keep it
-    * intersting conecpt here but the mcx101 connect to obd-11. - the middle is connected tot eh obd and one side is for your equipemnt and the other side will be the new obd pass through
+*   checkin every 12 hours during th off state and checkin every 1- mins while the asset is on
+*   flashed once its required
+*    lmu3030 is mostly fazed out but if still woriing than keep it
+*   intersting conecpt here but the mcx101 connect to obd-11. - the middle is connected tot eh obd and one side is for your equipemnt and the other side will be the new obd pass through
 
 #   GL500/520
-    * mostly used for stuff like the trialer and flat beds and what not
-    * to remove restet the device jusr crakc it open and there should be a switch to reset it
+*   mostly used for stuff like the trialer and flat beds and what not
++   to remove restet the device jusr crakc it open and there should be a switch to reset it
 
-#   
+   
 
 #   parts and other stuff
-    __the adhesion prmoster part number: MSC7953555__
+` the adhesion prmotor part number: MSC7953555 `
 
 
-the mc4++ shoulnt be pointing down whe mounting them it should be mounted 
++   the mc4++ shoulnt be pointing down whe mounting them it should be mounted 
 upwared to the singll can t be put out due to
 the fact the attenna are on the face of the morey
 
++   when installing a unit and the mc4 in tracker manager under messagesfast flash of green is failure and small green falashing slow is searching
+
+
+_okay reworking this yello and green solid is done, good check tracker messages-
 
 
 
++ 147 - s/n for the mc4++ are not working not functioning properly
 
 
+generating the trcker mwnagerment is fine ho2 were doing it but they want touse chrome and screen shot the screen and then on top rifht it saids fuko screen
